@@ -7,6 +7,8 @@ public class Pessoa {
     private String nome;
 	private LocalDate dataNascimento;
 
+    private final static String FormatoData = "dd/mm/aaaa";
+
     public String getNome() {
         return this.nome;
     }
@@ -23,15 +25,14 @@ public class Pessoa {
         this.dataNascimento = dataNascimento;
     }
 
-    public static boolean DataValida(String strDate) {
-        String FormatoData = "dd/mm/aaaa";
+    public static String DataValida(String strDate) {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(FormatoData).withResolverStyle(ResolverStyle.STRICT);
         try {
             LocalDate date = LocalDate.parse(strDate, dateTimeFormatter);
-            return true;
+            return "Data válida";
         } catch (DateTimeException e) {
-            return false;
+            return "Data inválida";
         }
     }
 }
