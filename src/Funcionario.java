@@ -1,16 +1,14 @@
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Funcionario extends Pessoa {
     private BigDecimal salario;
     private String funcao;
 
-    public Funcionario(String nome, LocalDate dataNascimento, String salario, String funcao) {
+    public Funcionario(String nome, String dataNascimento, String salario, String funcao) {
         super(nome, dataNascimento);
         this.salario = new BigDecimal(salario);
         this.funcao = funcao;
+        System.out.println(this.toString());
     }
 
     public BigDecimal getSalario() {
@@ -21,6 +19,10 @@ public class Funcionario extends Pessoa {
         this.salario = salario;
     }
 
+    public double getSalarioDouble() {
+		return (this.salario).doubleValue();
+	}
+
     public String getFuncao() {
         return this.funcao;
     }
@@ -29,15 +31,9 @@ public class Funcionario extends Pessoa {
         this.funcao = funcao;
     }
 
-    @Override
-    public String toString() {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/mm/aaaa");
-        String salarioStr = String.valueOf(this.getSalario());
-        double salarioLong = Double.valueOf(salarioStr);
-        DecimalFormat df = new DecimalFormat(",###.##");
-
-        return "Nome: " + this.getNome() + ", Data Nascimento: "
-                + formato.format(this.getDataNascimento()) + ", Salário: " + df.format(salarioLong)
-                + ", Função: " + this.getFuncao();
+    public void aumentoSalario(float porcentagem) {
+        BigDecimal porc = new BigDecimal(String.valueOf(porcentagem/100));
+        BigDecimal aumento = this.salario.multiply(porc);
+        this.salario = this.salario.add(aumento);
     }
 }

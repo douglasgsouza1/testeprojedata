@@ -1,22 +1,19 @@
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
 
 public class Pessoa {
     private String nome;
-	private LocalDate dataNascimento;
+    private LocalDate dataNascimento;
 
-    private final static String FormatoData = "dd/mm/aaaa";
+    private final static String FormatoData = "dd/MM/uuuu";
 
-    public Pessoa(String nome, LocalDate dataNascimento) {
+    public Pessoa(String nome, String dataNascimento) {
         this.nome = nome;
-        this.dataNascimento = dataNascimento;
+        this.dataNascimento = this.converterDate(dataNascimento);
     }
 
-
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -24,24 +21,17 @@ public class Pessoa {
     }
 
     public LocalDate getDataNascimento() {
-        return this.dataNascimento;
+        return dataNascimento;
     }
 
-
-    public static String DataValida(String strDate) {
-
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(FormatoData).withResolverStyle(ResolverStyle.STRICT);
-        try {
-            LocalDate.parse(strDate, dateTimeFormatter);
-            return "Data válida";
-        } catch (DateTimeException e) {
-            return "Data inválida";
-        }
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = this.converterDate(dataNascimento);
     }
 
-    @Override
-  public String toString() {
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern(FormatoData);
-    return "Nome: " + this.nome + ", Data Nascimento: " + formato.format(this.dataNascimento);  
-  }
+    private LocalDate converterDate(String strData) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern(FormatoData);
+        LocalDate data = LocalDate.parse(strData, formato);
+        return data;
+    }
+
 }
